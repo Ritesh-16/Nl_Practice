@@ -1,0 +1,720 @@
+
+
+    #Practical 1 a) Installing NLTK.
+    # b) Write python script to convert given input text to speech.
+    # c) Write python script to convert given input speech to text.
+    #b) Convert the given text to speech.
+    Source code:
+    # text to speech
+    # pip install gtts
+    # pip install playsound
+    from playsound import playsound
+    # import required for text to speech conversion
+    from gtts import gTTS
+    mytext = "Welcome to Natural Language programming"
+    language = "en"
+    myobj = gTTS(text=mytext, lang=language, slow=False)
+    myobj.save("myfile.mp3")
+    playsound("myfile.mp3")
+
+    #c) Convert audio file Speech to Text.
+    Source code:
+    Note: required to store the input file "male.wav" in the current folder before running the program.
+    #pip3 install SpeechRecognition pydub
+    import speech_recognition as sr
+    filename = "male.wav"
+    # initialize the recognizer
+    r = sr.Recognizer()
+    # open the file
+    with sr.AudioFile(filename) as source:
+    # listen for the data (load audio to memory)
+    audio_data = r.record(source)
+    # recognize (convert from speech to text)
+    text = r.recognize_google(audio_data)
+    print(text)
+
+    # b) Write python script to convert given input text to speech.
+
+    from gtts import gTTS
+    from playsound import playsound
+    text_val='All the best for your exam.'
+    language='en'
+    obj=gTTS (text=text_val, lang-language, slow=False)
+    obj.save ("exam.mp3")
+    playsound ("exam.mp3")
+
+    #Speech to text
+    import speech_recognition as sr
+    filename="C:/Users/tcsc/Desktop/NLP PRACT/female.flac"
+    r=sr.Recognizer ()
+    with sr.AudioFile (filename) as source:
+    audio_data=r.record (source)
+    text=r.recognize_google (audio_data)
+    print (text)
+    #this is an example of synthesized speech that was created by a neural Ho
+
+    import speech_recognition as sr
+    filename="C:/Users/tcsc/Downloads/Alice_Arnold_voice.ogg"
+    r=sr.Recognizer ()
+    with sr.AudioFile (filename) as source:
+    audio_data=r.record (source)
+    text=r.recognize_google (audio_data)
+    print (text)
+
+    #PRACTICAL NO. 2
+    # a) Study of various corpus-Brown, Inaugural, Reuters, UDHR with various methods like fields, raw, words, sents, categories.
+    # b) Study Conditional Frequency Distribution.
+    import nltk
+    nltk.download('brown')
+    from nltk.corpus import brown
+    brown.words ()
+
+    brown.categories ()
+
+    brown.words (categories= 'mystery')
+
+    brown.words (categories='religion')
+
+    brown.words (categories='fiction')
+
+    brown.words (categories= 'humor')
+
+    brown.fileids ()
+
+    brown.words (fileids=['cg22'])
+
+    brown.words (fileids=['cg23'])
+
+    brown.sents ()
+
+    brown.sents (categories=['mystery', 'fiction', 'humor', 'religion'])
+
+    #same as brown corpus do for reuters inaugural udhr
+    nltk.download('reuters')
+    from nltk.corpus import reuters
+    reuters.words ()
+    reuters.categories ()
+    mystery=reuters.words(categories= 'barley')
+    print(mystery)
+
+    # b) Study Conditional Frequency Distribution.
+    news_text=brown.words (categories='news')
+    fdist=nltk. FreqDist ( [w.lower () for w in news_text])
+    modals=['can', 'could', 'may', 'might', 'must', 'will']
+    for m in modals:
+        print (m+':', fdist [m])
+
+    cfd=nltk.ConditionalFreqDist((genre, word)
+    for genre in brown.categories ()
+    for word in brown.words (categories=genre))
+    genres=['news', 'religion', 'fiction', 'thriller', 'romance']
+    modals=['can', 'could', 'may', 'might', 'must', 'will']
+    cfd.tabulate (conditions=genres, samples=modals)
+
+    #Practical 3
+    # a) Create and use your own corpora (plain text).
+    import nltk.corpus
+    from nltk.corpus.reader.plaintext import PlaintextCorpusReader
+
+    # Define the directory containing your plain text files
+    corpus_dir = '/path/to/your/corpus/directory'
+
+    # Create a PlaintextCorpusReader
+    custom_corpus = PlaintextCorpusReader(corpus_dir, '.*\.txt')
+
+    # List all files in the corpus
+    print("Files in custom corpus:", custom_corpus.fileids())
+
+    # Access text from specific files
+    for fileid in custom_corpus.fileids():
+        print("Contents of", fileid, ":", custom_corpus.raw(fileid)[:100])
+
+    # b) Study of tagged corpora with methods like tagged_sents, tagged_words.
+    # c) WAP to find the most frequent noun tags.
+
+    # a) Create and use your own corpora (plain text).
+    import nltk
+    from nltk.corpus import PlaintextCorpusReader
+    corpus_root='C:/Users/tcsc/Downloads/Lisa/NLTK Practicals/MYCorpus' filelist=PlaintextCorpus Reader (corpus_root,'*')
+    print('\n File list: \n')
+
+    print (filelist.fileids ())
+
+    print('\n Filelist Root-'+filelist.root)
+
+    w=filelist.words('MSCIT.txt')
+    print (w[:6])
+
+    wl=filelist.sents('MSCIT.txt')
+    print(w1)
+
+    print ('\n\nStatistics for each text: \n')
+
+    print ('AvgWordLen\tAvgSentence Len\tno. ofTimeEachWordAppearsOnAvg\tFileName')
+    for fileid in filelist.fileids ():
+        num_chars=len (filelist.raw (fileid))
+        num_words=len (filelist.words (fileid))
+        num_sents=len (filelist.sents (fileid))
+        num_vocab=len (set ([w.lower() for w in filelist.words (fileid)]))
+        print(int (num_chars/num_words), '\t\t\t', int (num_words/num_sents), '\t\t\t', int (num_words/num_vocab), '\t\t', fileid)
+
+    # b) Study of tagged corpora with methods like tagged_sents, tagged_words.
+    import nltk
+    from nltk.corpus import brown
+    nltk.corpus.brown.tagged_words ()
+
+    nltk.download('conll2000')
+
+    nltk.corpus.conll2000.tagged_words ()
+
+    nltk.download('treebank')
+
+    nltk.corpus.treebank.tagged_words ()
+
+    nltk.corpus.treebank. tagged_sents ()
+
+    #c) WAP to find the most frequent noun tags.
+    from nltk.corpus import treebank
+    wsj=nltk.corpus.treebank.tagged_words()
+    word_tag_fd=nltk.FreqDist(wsj)
+    noun_pairs = [(word.lower(), tag) for word, tag in wsj if tag.startswith('NN')]
+
+    # Compute the frequency distribution of noun-word pairs
+    noun_tags = [tag for word, tag in wsj if tag.startswith('NN')]
+
+    # Compute the frequency distribution of noun tags
+    noun_tag_fd = nltk.FreqDist(noun_tags)
+
+    # Print the most common noun tags
+    print("Most Frequent Noun Tags:")
+    for tag, freq in noun_tag_fd.most_common():
+        print(tag, freq)
+
+    #Practical 4
+    # a) Map Words to Properties using Python Dictionaries.
+    # b) Study (i)DefaultTagger (ii) Regular Expression Tagger (iii) UnigramTagger.
+
+    #(i)DefaultTagger
+    import nltk
+    from nltk.tag import DefaultTagger
+    exptagger = DefaultTagger('NN')
+    from nltk.corpus import treebank
+    testsentences = treebank.tagged_sents() [1000:]
+    print(exptagger.evaluate (testsentences))
+    #Tagging a list of sentences
+    import nltk
+    from nltk.tag import DefaultTagger
+    exptagger = DefaultTagger('NN')
+    print(exptagger.tag_sents([['Hi', ','], ['How', 'are', 'you', '?']]))
+
+    #ii. Regular Expression Tagger
+    from nltk.corpus import brown
+    from nltk.tag import RegexpTagger
+    test_sent = brown.sents(categories='news')[0]
+    regexp_tagger = RegexpTagger(
+    [(r'^-?[0-9]+(.[0-9]+)?$', 'CD'), # cardinal numbers
+    (r'(The|the|A|a|An|an)$', 'AT'), # articles
+    (r'.*able$', 'JJ'), # adjectives
+    (r'.*ness$', 'NN'), # nouns formed from adjectives
+    (r'.*ly$', 'RB'), # adverbs
+    (r'.*s$', 'NNS'), # plural nouns
+    (r'.*ing$', 'VBG'), # gerunds
+    (r'.*ed$', 'VBD'), # past tense verbs
+    (r'.*', 'NN') # nouns (default)
+    ])
+    print(regexp_tagger)
+    print(regexp_tagger.tag(test_sent))
+    #iii. unigram
+    # Loading Libraries
+    from nltk.tag import UnigramTagger
+    from nltk.corpus import treebank
+    # Training using first 10 tagged sentences of the treebank corpus as data.
+    # Using data
+    train_sents = treebank.tagged_sents()[:10]
+    # Initializing
+    tagger = UnigramTagger(train_sents)
+    # Lets see the first sentence
+    # (of the treebank corpus) as list
+    print(treebank.sents()[0])
+    print('\n',tagger.tag(treebank.sents()[0]))
+    #Finding the tagged results after training.
+    tagger.tag(treebank.sents()[0])
+    #Overriding the context model
+    tagger = UnigramTagger(model ={'Pierre': 'NN'})
+    print('\n',tagger.tag(treebank.sents()[0]))
+
+    # a) Map Words to Properties using Python Dictionaries.
+    import nltk
+    pos={}
+    pos
+
+    pos['colorless']='ADJ'
+    pos
+
+    pos['ideas']='N'
+    pos['sleep']='V'
+    pos['furiously']='ADJ'
+    pos
+
+    list(pos)
+    pos
+
+    sorted(pos)
+
+    for word in sorted(pos):
+        print(word+".",pos[word])
+
+    pos.keys()
+
+    pos.values()
+
+    pos.items()
+
+    pos['sleep']=['N','V']
+    pos.items()
+
+    pos=dict(colorless='ADJ',ideas='N',sleep='V',furiously='ADJ')
+    pos
+
+    #b) Study (i)DefaultTagger (ii) Regular Expression Tagger (iii) UnigramTagger.
+    import nltk
+    from nltk.corpus import brown
+    tags=[tag for(word,tag)in brown.tagged_words(categories='news')]
+    nltk.FreqDist(tags).max()
+
+    raw='i do not like green eggs and ham, i do not like them Sam i am!'
+    tokens=nltk.word_tokenize(raw)
+    default_tagger=nltk.DefaultTagger('NN')
+    default_tagger.tag(tokens)
+
+    tagged_tokens = default_tagger.tag(tokens)
+    print("Tagged tokens with default tagger:", tagged_tokens)
+
+    # Evaluate the default tagger on the Brown corpus
+    brown_tagged_sents = brown.tagged_sents(categories='news')
+    accuracy = default_tagger.accuracy(brown_tagged_sents)
+    print("Accuracy of the default tagger on 'news' category of Brown corpus:", accuracy)
+
+    #Practical 5
+    #AIM: a) Study of Wordnet Dictionary with methods as synsets, definitions, examples, antonyms. 
+    #b) Study of lemmas, hyponyms, hypernyms, meronyms, entailments. 
+    #c) WAP to find synonym and antonym of word 'active' using Wordnet.
+
+    import nltk
+    from nltk.corpus import wordnet as wn
+    nltk.download('wordnet')
+
+    #from colab ai
+    from nltk.corpus import wordnet
+
+    # Get synsets for the word "dog"
+    synsets = wordnet.synsets("dog")
+
+    # Print the synsets
+    for synset in synsets:
+        print("Synset:", synset)
+
+    # Get the definition of the first synset
+    definition = synsets[0].definition()
+
+    # Print the definition
+    print("Definition:", definition)
+
+    # Get examples of the first synset
+    examples = synsets[0].examples()
+
+    # Print the examples
+    print("Examples:")
+    for example in examples:
+        print("- {}".format(example))
+
+    # Get antonyms of the first synset
+    antonyms = synsets[0].lemmas()[0].antonyms()
+
+    # Print the antonyms
+    print("Antonyms:")
+    for antonym in antonyms:
+        print("- {}".format(antonym.name()))
+
+    wn.synsets('motocar')
+
+    wn.synsets('car')
+
+    wn.synset('car.n.01').lemma_names()
+
+    wn.synset('car.n.01').examples()
+
+    wn.synset('car.n.01').definition()
+
+    wn.synset('car.n.01').lemmas
+
+    wn.synset('car.n.01').lemmas()
+
+    wn.lemma('car.n.01.automobile')
+
+    wn.lemma('car.n.01.automobile').synset()
+
+    wn.lemma('car.n.01.automobile').name()
+    wn.lemmas('car')
+
+    for synset in wn.synsets('car'):
+        print(synset.lemma_names())
+
+    #b) Study of lemmas, hyponyms, hypernyms, meronyms, entailments.
+    car=wn.synset('car.n.01')
+    car
+
+    types_of_car=car.hyponyms()
+    types_of_car
+
+    types_of_car[26]
+
+    sorted([lemma.name() for synset in types_of_car for lemma in synset.lemmas()])
+
+    car.hypernyms()
+
+    paths=car.hypernym_paths()
+    len(paths)
+
+    synset.name()
+
+    car.root_hypernyms()
+
+    wn.synset('tree.n.02').part_meronyms()
+    wn.synset('tree.n.01').substance_meronyms()
+    wn.synset('tree.n.01').member_holonyms()
+    wn.synset('walk.v.01').entailments()
+    wn.synset('eat.v.01').entailments()
+    wn.lemma('supply.n.02.supply').antonyms()
+
+    wn.lemma('supply.n.02.supply').antonyms()
+
+    wn.lemma('supply.n.02.supply').antonyms()
+
+    wn.lemma('rush.n.02.rush').antonyms()
+
+    wn.lemma('horizontal.a.01.horizontal').antonyms()
+
+    #c) WAP to find synonym and antonym of word 'active' using Wordnet.
+    import nltk
+    from nltk.corpus import wordnet
+    print(wordnet.synsets("active"))
+
+    print(wordnet.lemma('active.a.01.active').antonyms())
+    synsets = wordnet.synsets("active")
+
+    # Print the synsets
+    print("Synsets for 'active':")
+    for synset in synsets:
+        print(synset)
+
+    from nltk.corpus import wordnet
+
+    # Find synsets (sets of synonyms) for the word 'active'
+    synsets_active = wordnet.synsets("active")
+
+    # Print synonyms for 'active'
+    print("Synonyms for 'active':")
+    for synset in synsets_active:
+        for lemma in synset.lemmas():
+            print(lemma.name())
+
+    # Print antonyms for 'active'
+    print("\nAntonyms for 'active':")
+    for synset in synsets_active:
+        for lemma in synset.lemmas():
+            if lemma.antonyms():
+                print(lemma.antonyms()[0].name())
+
+    # Practical 6
+    # a) Compare two nouns.
+    # b) Handling stopword.
+
+    # a) Compare two nouns.
+
+    import nltk
+    nltk.download ('wordnet')
+    nltk.download ('omw-1.4')
+
+    from nltk.corpus import wordnet
+    syn1=wordnet.synsets("football")
+    syn2=wordnet.synsets ('soccer')
+    for s1 in syn1:
+        for s2 in syn2:
+            print("Path similarity of: ")
+            print (s1, '(',s1.pos (), ')','[', sl.definition (), ']')
+            print (s2, '(',s2.pos (), ')', '[',s2.definition (), ']')
+            print(" is", s1.path_similarity (s2))
+            print ()
+
+    #b
+    #(i) Adding or Removing Stop Words in NLTK’s Default Stop Word List
+    import nltk
+    from nltk.corpus import stopwords
+    nltk.download ('stopwords')
+    from nltk.tokenize import word_tokenize
+    print (stopwords.words ())
+    nltk.download ('punkt')
+    text=" messi likes to play football, however he is not too fond of tennis"
+    text_tokens=word_tokenize(text)
+    token_without_sw= [word for word in text_tokens if not word in stopwords.words ()]
+    print (token_without_sw)
+    all_stopwords=stopwords.words ('english')
+    all_stopwords.append('play')
+    text_tokens=word_tokenize(text)
+    token_without_sw= [word for word in text_tokens if not word in all_stopwords]
+    print (token_without_sw)
+    all_stopwords.remove('is')
+    text_tokens=word_tokenize(text)
+    token_without_sw= [word for word in text_tokens if not word in all_stopwords]
+    print (token_without_sw)
+
+    #(ii) Using Gensim Adding and Removing Stop Words in Default Gensim Stop Words List.
+    #gensim
+    import gensim
+    from gensim.parsing.preprocessing import remove_stopwords
+    text=" messi likes to play football, however he is not too fond of tennis"
+    filtered_sentence=remove_stopwords (text)
+    print (filtered_sentence)
+    all_stopwords=gensim.parsing.preprocessing.STOPWORDS
+    print (all_stopwords)
+    from gensim.parsing.preprocessing import STOPWORDS
+    from nltk.tokenize import word_tokenize
+    all_stopwords_gensim=STOPWORDS.union (set(['likes', 'play']))
+
+    text_tokens=word_tokenize (text)
+    token_without_sw=[word for word in text_tokens if not word in all_stopwords_gensim]
+    print (token_without_sw)
+    from gensim.parsing.preprocessing import STOPWORDS
+    all_stopwords_gensim=STOPWORDS
+    sw_list={"not"}
+    all_stopwords_gensim-STOPWORDS.difference (sw_list)
+
+    text_tokens=word_tokenize (text)
+    token_without_sw=[word for word in text_tokens if not word in all_stopwords_gensim]
+    print (token_without_sw)
+
+    #(iii) Using Spacy Adding and Removing Stop Words in Default Spacy Stop Words List
+    import spacy
+    import nltk
+    from nltk.tokenize import word_tokenize
+    sp=spacy.load('en_core_web_sm')
+    all_stopwords=sp.Defaults.stop_words
+    all_stopwords.add("play")
+    text=" messi likes to play football, however he is not too fond of tennis"
+    text_tokens=word_tokenize (text)
+    token_without_sw=[word for word in text_tokens if not word in all_stopwords]
+    print (token_without_sw)
+    all_stopwords.remove('to')
+    token_without_sw=[word for word in text_tokens if not word in all_stopwords]
+    print (token_without_sw)
+
+    #iii
+    import spacy
+
+    # Load the spaCy English model
+    nlp = spacy.load("en_core_web_sm")
+
+    # Get the default stop words set
+    default_stop_words = set(nlp.Defaults.stop_words)
+
+    # Print the default stop words before modification
+    print("Default stop words before modification:", default_stop_words)
+
+    # Add a new stop word
+    new_stop_word = "customstopword"
+    default_stop_words.add(new_stop_word)
+
+    # Print the default stop words after adding the new stop word
+    print("Default stop words after adding:", default_stop_words)
+
+    # Check if the stop word "my" is in the default stop words list
+    print("Is 'my' in default stop words list:", 'my' in default_stop_words)
+
+    # Remove a stop word
+    removed_stop_word = "my"
+    default_stop_words.discard(removed_stop_word)
+
+    # Print the default stop words after removing
+    print("Default stop words after removing:", default_stop_words)
+
+    #Practical 7 
+    #Text Tokenization
+    # a) Tokenization using Python’s split() function
+    text="this tool is on a beta stage, alexa developers can use get metrics"
+    data=text.split()
+    for i in data:
+        print(i)
+
+    # b) Tokenization using Regular Expressions (Regfx)
+    import nltk
+    from nltk.tokenize import RegexpTokenizer
+    tk=RegexpTokenizer('s+',gaps=True)
+    str="i love to study NLP in Python"
+    tokens=tk.tokenize(str)
+    print(tokens)  
+
+    # c) Tokenization using NLTK
+    import nltk
+    nltk.download('punkt')
+    from nltk.tokenize import word_tokenize
+    str="i love to study DL"
+    print(word_tokenize(str))
+
+    # d) Tokenization using the spaCy library
+    import spacy
+    nlp=spacy.blank("en")
+    str="i love nlp"
+    doc=nlp(str)
+    words=[word.text for word in doc]
+    print(words)
+
+    # e) Tokenization using Keras
+    import keras
+    from keras.preprocessing.text import text_to_word_sequence
+    str="i love to study NLP"
+    tokens=text_to_word_sequence(str)
+    print(tokens)
+
+    # f) Tokenization using Gensim
+    #pip install gensim
+    from gensim.utils import tokenize
+    str="i love to study nlp"
+    list(tokenize(str))
+
+    #Practical 8 Import NLP Libraries for Indian Languages and perform:
+    # a) Word tokenization in Hindi.
+    # b) Generate similar sentences from a given Hindi text input.
+    # c) Identify the Indian language of a text.
+
+    # a) Word tokenization in Hindi.
+
+    # !pip install torch==1.3.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+    #pip install torch==2.1.2
+    # !pip install inltk
+    # !pip install tornado==4.5.3
+    from inltk.inltk import setup
+    setup('hi')
+    from inltk.inltk import tokenize
+    hindi_text = """प्राकृ तिक भाषा सीखना बहुत तिलचस्प है।"""
+    # tokenize(input text, language code)
+    tokenize(hindi_text, "hi")
+
+    #b) Generate similar sentences from a given Hindi text input.
+
+    from inltk.inltk import setup
+    setup('hi')
+    from inltk.inltk import get_similar_sentences
+    # get similar sentences to the one given in hindi
+    output = get_similar_sentences('मैंआज बहुत खुश हूं', 5, 'hi')
+    print(output)
+
+    #c) Identify the Indian language of a text.
+    from inltk.inltk import setup
+    setup('gu')
+    from inltk.inltk import identify_language
+    #Identify the Lnaguage of given text
+    identify_language('બીના કાપડિયા')
+
+    from inltk.inltk import identify_language
+
+    # Define the text
+    text = "भारत में विभिन्न भाषाएँ बोली जाती हैं।"
+
+    # Identify the language of the text
+    language = identify_language(text)
+
+    # Print the identified language
+    print("Identified language:", language)
+
+    #Practical 9
+    # Illustrate POS tagging:
+    # a) Sentence tokenization, word tokenization, part of speech tagging and chunking of user define text.
+    # b) Name Entity Recognition of user defined text.
+    # c) Name Entity Recognition with diagram using NLTK corpus-treebank.
+
+    #a
+    import nltk
+    from nltk import tokenize
+    nltk.download('punkt')
+    from nltk import tag
+    from nltk import chunk
+    nltk.download('averaged_perceptron_tagger')
+    nltk.download('words')
+
+    para="Today we will be learning NLTK."
+    sents=tokenize.sent_tokenize (para)
+    print("\nsentence tokenization\n=========\n",sents)
+    words=tokenize.word_tokenize (para)
+
+    print("\nword tokenization\n=========\n",words)
+
+    for index in range(len(sents)):
+        words=tokenize.word_tokenize (sents [index])
+        print(words)
+    #POS Tagging
+    print("\nPOS tagging\n==========\n")
+
+    tagged_words=[]
+    for index in range(len(sents)):
+        tagged_words.append(tag.pos_tag(words))
+        print(tagged_words)
+    #chunking
+    print("\nChunking\n==========\n")
+
+    import nltk
+    nltk.download('maxent_ne_chunker')
+
+    tree=[]
+    for index in range(len(sents)):
+        tree.append(chunk.ne_chunk(tagged_words [index]))
+        print(tree)
+
+    # b) Name Entity Recognition of user defined text.
+
+    # pip install spacy
+    # python -m spacy download en_core_web_sm
+
+    import spacy
+    nlp=spacy.load("en_core_web_sm")
+    text="""Apple Inc., originally named Apple doing Computer, Inc.,
+    is a multinational corporation that creates and markets consumer electronics and attendant computer software, and is a digital distributor of media content. Apple's core product lines are the iPhone smartphone, iPad tablet computer, and the Macintosh personal computer.
+    The company offers its products online and has a chain of retail stores known as Apple Stores. Founders Steve Jobs, Steve Wozniak, and Ronald Wayne created Apple Computer Co. on April 1, 1976, to market Wozniak's Apple I desktop computer, [2] and Jobs and Wozniak incorporated the company on January 3, 1977, [3] in Cupertino, California."""
+    doc=nlp(text)
+    entities = [(ent.text, ent.label_) for ent in doc.ents]
+
+    # Print the named entities
+    print("Named Entities:")
+    for entity in entities:
+        print(entity)
+
+    import spacy
+
+    # Load the spaCy English model
+    nlp = spacy.load("en_core_web_sm")
+
+    # Define the user-defined text
+    text = "Apple Inc. is headquartered in Cupertino, California."
+
+    # Process the text with spaCy
+    doc = nlp(text)
+
+    # Extract named entities
+    entities = [(ent.text, ent.label_) for ent in doc.ents]
+
+    # Print the named entities
+    print("Named Entities:")
+    for entity in entities:
+        print(entity)
+
+    #c) Name Entity Recognition with diagram using NLTK corpus-treebank.
+
+    #pip install svgling
+    import nltk
+    nltk.download("treebank")
+
+    from nltk.corpus import treebank_chunk
+    treebank_chunk.tagged_sents()[0]
+
+    treebank_chunk.chunked_sents()[0]
+    #treebank_chunk.chunked_sents()[0].draw()
